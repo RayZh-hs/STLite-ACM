@@ -1,6 +1,7 @@
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/data)
-add_executable(vector_one ${CMAKE_CURRENT_SOURCE_DIR}/data/one/code.cpp)
+add_executable(vector_one ${CMAKE_CURRENT_SOURCE_DIR}/data/one/code.cpp
+        src/vector.hpp)
 add_executable(vector_two ${CMAKE_CURRENT_SOURCE_DIR}/data/two/code.cpp)
 add_executable(vector_three ${CMAKE_CURRENT_SOURCE_DIR}/data/three/code.cpp)
 add_executable(vector_four ${CMAKE_CURRENT_SOURCE_DIR}/data/four/code.cpp)
