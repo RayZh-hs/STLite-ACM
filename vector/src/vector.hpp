@@ -105,7 +105,7 @@ public:
 
 	public:
 
-		iterator(vector<T>* base_vector, const int n)
+		iterator(vector<T>* base_vector, const size_t n)
 			: ref_vector(base_vector), index(n) {}
 
 		/**
@@ -227,7 +227,7 @@ public:
 		}
 
 	public:
-		const_iterator(const vector<T>* base_vector, const int n)
+		const_iterator(const vector<T>* base_vector, const size_t n)
 			: ref_vector(base_vector), index(n) {}
 
 		/**
@@ -451,7 +451,7 @@ public:
 		// ASSUME that pos is a valid iterator.
 		const auto ind = pos - begin();
 		// First shift the data right 1 unit.
-		for (size_t from = cur_size - 1; from >= ind; --from) {
+		for (auto from = static_cast<long long>(cur_size - 1); from >= ind; --from) {
 			// Copy the data from `from` to index `from + 1`.
 			base_ptr[from + 1] = base_ptr[from];
 		}
@@ -475,7 +475,7 @@ public:
 			throw index_out_of_bound();;
 		}
 		// First shift the data right 1 unit.
-		for (size_t from = cur_size - 1; from >= ind; --from) {
+		for (auto from = static_cast<long long>(cur_size - 1); from >= ind; --from) {
 			// Copy the data from `from` to index `from + 1`.
 			base_ptr[from + 1] = base_ptr[from];
 		}
