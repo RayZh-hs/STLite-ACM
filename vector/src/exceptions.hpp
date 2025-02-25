@@ -39,8 +39,8 @@ namespace sjtu {
         /* __________________________ */
     };
 
-    class internal_safeguard_failed : public exception {
-    };
+    // class internal_safeguard_failed : public exception {
+    // };
 }
 
 #endif

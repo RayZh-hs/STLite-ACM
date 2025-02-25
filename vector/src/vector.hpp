@@ -94,11 +94,11 @@ public:
 		vector<T>* ref_vector = nullptr;
 		size_t index = 0;
 
-		void guard_not_null() const {
-			if (ref_vector == nullptr) {
-				throw internal_safeguard_failed();
-			}
-		}
+		// void guard_not_null() const {
+		// 	if (ref_vector == nullptr) {
+		// 		throw internal_safeguard_failed();
+		// 	}
+		// }
 
 		void guard_bound(const size_t& new_index) const {
 			if (new_index >= ref_vector->cur_size || new_index < 0) {
@@ -133,51 +133,51 @@ public:
 			if (ref_vector != rhs.ref_vector) {
 				throw invalid_iterator();
 			}
-			guard_not_null();
+			// guard_not_null();
 			return index - rhs.index;
 		}
 		iterator& operator+=(const int &n)
 		{
-			guard_not_null();
+			// guard_not_null();
 			// guard_bound(index + n);
 			index += n;
 			return *this;
 		}
 		iterator& operator-=(const int &n)
 		{
-			guard_not_null();
+			// guard_not_null();
 			// guard_bound(index - n);
 			index -= n;
 			return *this;
 		}
 
 		iterator operator++(int) {	// iter++
-			guard_not_null();
+			// guard_not_null();
 			// guard_bound(index + 1);
 			++index;
 			return iterator(ref_vector, index - 1);
 		}
 		iterator& operator++() {	// ++iter
-			guard_not_null();
+			// guard_not_null();
 			// guard_bound(index + 1);
 			++index;
 			return *this;
 		}
 		iterator operator--(int) {	// iter--
-			guard_not_null();
+			// guard_not_null();
 			// guard_bound(index - 1);
 			--index;
 			return iterator(ref_vector, index + 1);
 		}
 		iterator& operator--() {	// --iter
-			guard_not_null();
+			// guard_not_null();
 			// guard_bound(index - 1);
 			--index;
 			return *this;
 		}
 
 		T& operator*() const {
-			guard_not_null();
+			// guard_not_null();
 			return *(ref_vector->base_ptr + index);
 		}
 		/**
@@ -217,11 +217,11 @@ public:
 		const vector<T>* ref_vector = nullptr;
 		size_t index = 0;
 
-		void guard_not_null() const {
-			if (ref_vector == nullptr) {
-				throw internal_safeguard_failed();
-			}
-		}
+		// void guard_not_null() const {
+		// 	if (ref_vector == nullptr) {
+		// 		throw internal_safeguard_failed();
+		// 	}
+		// }
 
 		void guard_bound(const size_t& new_index) const {
 			if (new_index >= ref_vector->cur_size || new_index < 0) {
@@ -255,51 +255,51 @@ public:
 			if (ref_vector != rhs.ref_vector) {
 				throw invalid_iterator();
 			}
-			guard_not_null();
+			// guard_not_null();
 			return index - rhs.index;
 		}
 		const_iterator& operator+=(const int &n)
 		{
-			guard_not_null();
+			// guard_not_null();
 			// guard_bound(index + n);
 			index += n;
 			return *this;
 		}
 		const_iterator& operator-=(const int &n)
 		{
-			guard_not_null();
+			// guard_not_null();
 			// guard_bound(index - n);
 			index -= n;
 			return *this;
 		}
 
 		const_iterator operator++(int) {	// iter++
-			guard_not_null();
+			// guard_not_null();
 			// guard_bound(index + 1);
 			++index;
 			return const_iterator(ref_vector, index - 1);
 		}
 		const_iterator& operator++() {	// ++iter
-			guard_not_null();
+			// guard_not_null();
 			// guard_bound(index + 1);
 			++index;
 			return *this;
 		}
 		const_iterator operator--(int) {	// iter--
-			guard_not_null();
+			// guard_not_null();
 			// guard_bound(index - 1);
 			--index;
 			return const_iterator(ref_vector, index + 1);
 		}
 		const_iterator& operator--() {	// --iter
-			guard_not_null();
+			// guard_not_null();
 			// guard_bound(index - 1);
 			--index;
 			return *this;
 		}
 
 		T operator*() const {
-			guard_not_null();
+			// guard_not_null();
 			return *(ref_vector->base_ptr + index);
 		}
 		/**
