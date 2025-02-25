@@ -44,6 +44,20 @@ private:
 	}
 
 	/**
+	 * duplicate other_size number of T instances to the current base_ptr
+	 *
+	 * ! base_ptr must be able to contain the data
+	 */
+	void duplicate_vector(const vector<T> &other) {
+		base_ptr = raw_new(other.cur_size_bound);
+		for (size_t i = 0; i < other.cur_size; i++) {
+			base_ptr[i] = T(other.base_ptr[i]);
+		}
+		cur_size = other.cur_size;
+		cur_size_bound = other.cur_size_bound;
+	}
+
+	/**
 	 * grows the current storage space by constant MULTIPLIER;
 	 * the data and current length are not affected.
 	 *
@@ -330,11 +344,7 @@ public:
 		base_ptr = raw_new(cur_size_bound);
 	}
 	vector(const vector &other) {
-		// The new vector needs the same amount of space allocated to `other`.
-		base_ptr = raw_new(other.cur_size_bound);
-		memcpy(base_ptr, other.base_ptr, sizeof(T) * other.cur_size);
-		cur_size = other.cur_size;
-		cur_size_bound = other.cur_size_bound;
+		duplicate_vector(other);
 	}
 
 	~vector() {
@@ -350,8 +360,7 @@ public:
 		destruct_within(0, cur_size);
 		operator delete [](base_ptr);
 		// Use the same assignment as the copy constructor
-		base_ptr = raw_new(other.cur_size_bound);
-		memcpy(base_ptr, other.base_ptr, sizeof(T) * other.cur_size);
+		duplicate_vector(other);
 		return *this;
 	}
 	/**
