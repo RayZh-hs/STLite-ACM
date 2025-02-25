@@ -17,7 +17,7 @@ class vector
 {
 private:
 
-	static constexpr size_t STARTUP_SIZE = 5;
+	static constexpr size_t STARTUP_SIZE = 16;
 	static constexpr float MULTIPLIER = 2.;
 
 	T* base_ptr = nullptr;		// The pointer that points to the beginning to the vector.
@@ -25,7 +25,10 @@ private:
 	size_t cur_size_bound = STARTUP_SIZE;	// The upperbound that the vector can hold at present.
 
 	static T* raw_new(const size_t &count) {
-		return static_cast<T*>(operator new[](sizeof(T) * count));
+		const auto allocated = static_cast<T*>(operator new[](sizeof(T) * count));
+		// TODO is necessary? Slows down **dramatically**.
+		memset(allocated, 0, sizeof(T) * count);
+		return allocated;
 	}
 
 	void guard_bound(const size_t &index) const {
@@ -52,7 +55,7 @@ private:
 		// First move the old data to the new data.
 		memcpy(new_base_ptr, base_ptr, sizeof(T) * cur_size_bound);
 		// Next, delete the old space WITHOUT DESTRUCTING.
-		delete [] base_ptr;
+		operator delete [](base_ptr);
 		// Finally, update the data.
 		base_ptr = new_base_ptr;
 		cur_size_bound = new_size_bound;
@@ -124,7 +127,7 @@ public:
 		}
 		// return the distance between two iterators,
 		// if these two iterators point to different vectors, throw invaild_iterator.
-		// TODO Check whether sign should be considered here.
+		// DONE Check whether sign should be considered here.
 		int operator-(const iterator &rhs) const
 		{
 			if (ref_vector != rhs.ref_vector) {
@@ -246,7 +249,7 @@ public:
 		}
 		// return the distance between two iterators,
 		// if these two iterators point to different vectors, throw invaild_iterator.
-		// TODO Check whether sign should be considered here.
+		// DONE Check whether sign should be considered here.
 		int operator-(const const_iterator &rhs) const
 		{
 			if (ref_vector != rhs.ref_vector) {
@@ -337,7 +340,7 @@ public:
 	~vector() {
 		// Invoke the destructors of corresponding elements stored.
 		destruct_within(0, cur_size);
-		delete [] base_ptr;
+		operator delete [](base_ptr);
 	}
 
 	vector &operator=(const vector &other) {
@@ -345,7 +348,7 @@ public:
 			return *this;
 		// The old space needs to be removed
 		destruct_within(0, cur_size);
-		delete [] base_ptr;
+		operator delete [](base_ptr);
 		// Use the same assignment as the copy constructor
 		base_ptr = raw_new(other.cur_size_bound);
 		memcpy(base_ptr, other.base_ptr, sizeof(T) * other.cur_size);
@@ -517,7 +520,7 @@ public:
 	 * adds an element to the end.
 	 */
 	void push_back(const T &value) {
-		base_ptr[cur_size++] = value;
+		base_ptr[cur_size++] = T(value);
 		if (cur_size >= cur_size_bound) {
 			grow_space();
 		}
