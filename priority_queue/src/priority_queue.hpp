@@ -217,6 +217,7 @@ namespace sjtu {
             root = meld_nodes(root, other.root);
             other.root = nullptr;
             raw_size_ += other.raw_size_;   // this must come after med_nodes in case of an exception
+            other.raw_size_ = 0;
         }
     };
 }
